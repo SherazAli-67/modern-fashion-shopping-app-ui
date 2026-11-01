@@ -2,8 +2,8 @@ class StringConst {
   static const appTitle = 'Modern Fashion Shopping';
   static const appFontFamily = 'ClashDisplay';
 
-  static const splashBrand = 'fashion.';
-  static const onboardingWatermark = 'Fashion';
+  static const splashBrand = 'fashion';
+  static const onboardingWatermark = 'FASHION';
   static const onboardingLine1 = 'Transform Your Wardrobe';
   static const onboardingLine2Prefix = 'Discover and Shop';
   static const onboardingLine2Suffix = ' Trends';

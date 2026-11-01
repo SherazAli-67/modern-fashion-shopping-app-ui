@@ -28,6 +28,9 @@ class AssetRes {
 
   static const logo = '${_iconsPath}logo.png';
   static const doubleRings = '${_iconsPath}double_rings.svg';
+  static const ringLarge = '${_iconsPath}ring_large.svg';
+  static const ringSmall = '${_iconsPath}ring_small.svg';
+  static const accentDot = '${_iconsPath}accent_dot.svg';
   static const icArrowBack = '${_iconsPath}ic_arrow_back.svg';
   static const icArrowNext = '${_iconsPath}ic_arrow_next.svg';
   static const icCart = '${_iconsPath}ic_cart.svg';

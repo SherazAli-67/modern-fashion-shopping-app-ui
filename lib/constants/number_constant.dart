@@ -23,4 +23,9 @@ class NumberConstant {
   static const productCardRadius = 24.0;
   static const splashLogoSize = 68.0;
   static const splashBrandDotSize = 4.87;
+  static const splashDelaySeconds = 2;
+  static const collageGap = 16.0;
+  static const onboardingImageRadius = 90.0;
+  static const onboardingRightImageRadius = 100.0;
+  static const onboardingHeadlineSpacing = 6.0;
 }
