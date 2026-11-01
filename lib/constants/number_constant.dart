@@ -1,0 +1,26 @@
+class NumberConstant {
+  static const horizontalPadding = 24.0;
+  static const sectionSpacing = 28.0;
+  static const itemSpacing = 16.0;
+  static const tightSpacing = 10.0;
+  static const chipSpacing = 12.0;
+  static const productGridGap = 16.0;
+  static const productCardAspectRatio = 156 / 230;
+  static const categoryItemWidth = 70.0;
+  static const categoryAvatarSize = 70.0;
+  static const chipVerticalPadding = 14.0;
+  static const chipHorizontalPadding = 22.0;
+  static const circularButtonPadding = 17.0;
+  static const iconButtonPadding = 15.0;
+  static const thumbnailSize = 75.0;
+  static const thumbnailRadius = 24.0;
+  static const detailsSheetRadius = 38.0;
+  static const pillRadius = 40.0;
+  static const capsuleRadius = 100.0;
+  static const onboardingCtaHeight = 60.0;
+  static const addToCartHeight = 52.0;
+  static const selectorHeight = 50.0;
+  static const productCardRadius = 24.0;
+  static const splashLogoSize = 68.0;
+  static const splashBrandDotSize = 4.87;
+}
