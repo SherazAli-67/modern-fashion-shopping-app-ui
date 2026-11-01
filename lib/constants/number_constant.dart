@@ -28,4 +28,8 @@ class NumberConstant {
   static const onboardingImageRadius = 90.0;
   static const onboardingRightImageRadius = 100.0;
   static const onboardingHeadlineSpacing = 6.0;
+  static const productGridStagger = 28.0;
+  static const categoryGap = 16.0;
+  static const categoryFireWidth = 10.0;
+  static const categoryFireHeight = 14.0;
 }

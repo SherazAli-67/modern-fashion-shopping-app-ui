@@ -10,11 +10,16 @@ class StringConst {
   static const onboardingLine3 = 'with Our Fashion App';
   static const onboardingCta = 'Let’s Get start';
 
-  static const homeGreeting = 'Welcome, Uttam vora';
-  static const homeHeroTitle = 'Discover your next style';
+  static const homeWelcome = 'Welcome,';
+  static const homeUserName = 'Uttam vora';
+  static const homeHeroPrefix = 'Discover your next ';
+  static const homeHeroHighlight = 'style';
   static const categorySection = 'Category';
+  static const discount20 = '-20%';
+  static const discount50 = '-50%';
+  static const offLabel = 'OFF';
   static const wishlistTitle = 'Wishlist';
-  static const categoryTshirt = 'Tshirt';
+  static const categoryTshirt = 'T-shirt';
   static const categoryPant = 'Pant';
   static const categoryDress = 'Dress';
   static const categoryJacket = 'Jacket';

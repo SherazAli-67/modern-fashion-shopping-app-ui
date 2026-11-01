@@ -44,20 +44,55 @@ class AppTextStyles {
     color: AppColors.white,
   );
 
-  static const homeGreeting = TextStyle(
+  static const homeWelcome = TextStyle(
     fontFamily: _font,
-    fontWeight: .w400,
-    fontSize: 14,
+    fontWeight: .w500,
+    fontSize: 12,
     color: AppColors.white,
-    height: 1.4,
+  );
+
+  static const homeUserName = TextStyle(
+    fontFamily: _font,
+    fontWeight: .w500,
+    fontSize: 18,
+    color: AppColors.accent,
   );
 
   static const homeHeroTitle = TextStyle(
     fontFamily: _font,
     fontWeight: .w500,
-    fontSize: 42,
+    fontSize: 34,
     color: AppColors.white,
     height: 1.2,
+  );
+
+  static const homeHeroHighlight = TextStyle(
+    fontFamily: _font,
+    fontWeight: .w600,
+    fontSize: 34,
+    color: AppColors.accent,
+    height: 1.2,
+  );
+
+  static const discountBadge = TextStyle(
+    fontFamily: _font,
+    fontWeight: .w700,
+    fontSize: 12,
+    color: AppColors.white,
+  );
+
+  static const discountOff = TextStyle(
+    fontFamily: _font,
+    fontWeight: .w600,
+    fontSize: 8,
+    color: AppColors.white,
+  );
+
+  static const categoryLabelSelected = TextStyle(
+    fontFamily: _font,
+    fontWeight: .w500,
+    fontSize: 16,
+    color: AppColors.accent,
   );
 
   static const sectionTitle = TextStyle(
@@ -70,7 +105,7 @@ class AppTextStyles {
   static const categoryLabel = TextStyle(
     fontFamily: _font,
     fontWeight: .w500,
-    fontSize: 14,
+    fontSize: 16,
     color: AppColors.white,
   );
 

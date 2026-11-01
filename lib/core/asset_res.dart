@@ -40,6 +40,9 @@ class AssetRes {
   static const icFlower = '${_iconsPath}ic_flower.svg';
   static const icHeadlineUnderline = '${_iconsPath}ic_headline_underline.svg';
   static const icPercentageOffBadge = '${_iconsPath}ic_percentage_off_badge.svg';
+  static const icDiscountStar = '${_iconsPath}ic_discount_star.svg';
+  static const icStyleRings = '${_iconsPath}ic_style_rings.svg';
+  static const icCategoryFire = '${_iconsPath}ic_category_fire.png';
   static const icRedirect = '${_iconsPath}ic_redirect.svg';
   static const icSearch = '${_iconsPath}ic_search.svg';
 }

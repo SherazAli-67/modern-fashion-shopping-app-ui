@@ -10,4 +10,5 @@ class AppColors {
   static const watermark = Color(0x29FFFFFF);
   static const whiteBorder = Color(0x26FFFFFF);
   static const iconButtonBg = Color(0x33FFFFFF);
+  static const chipBg = Color(0xFF0F0F0F);
 }

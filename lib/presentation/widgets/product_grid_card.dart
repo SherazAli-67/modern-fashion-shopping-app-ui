@@ -41,9 +41,15 @@ class ProductGridCard extends StatelessWidget {
               right: NumberConstant.tightSpacing,
               child: GestureDetector(
                 onTap: onFavoriteTap,
-                child: SvgPicture.asset(
-                  isFavorite ? AssetRes.icFavoriteFilled : AssetRes.icFavoriteOutlined,
-                  colorFilter: .mode(AppColors.white, .srcIn),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(color: AppColors.accent, shape: .circle),
+                  child: Padding(
+                    padding: .all(5),
+                    child: SvgPicture.asset(
+                      isFavorite ? AssetRes.icFavoriteFilled : AssetRes.icFavoriteOutlined,
+                      colorFilter: .mode(AppColors.white, .srcIn),
+                    ),
+                  ),
                 ),
               ),
             ),

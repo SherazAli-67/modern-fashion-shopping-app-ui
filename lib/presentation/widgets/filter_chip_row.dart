@@ -27,13 +27,13 @@ class FilterChipRow extends StatelessWidget {
               onTap: () => onSelected(i),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: i == selectedIndex ? AppColors.white : AppColors.black,
+                  color: i == selectedIndex ? AppColors.accent : AppColors.chipBg,
                   borderRadius: .circular(NumberConstant.pillRadius),
-                  border: .all(color: i == selectedIndex ? AppColors.white : AppColors.border),
+                  border: .all(color: AppColors.whiteBorder),
                 ),
                 child: Padding(
                   padding: .symmetric(horizontal: NumberConstant.chipHorizontalPadding, vertical: NumberConstant.chipVerticalPadding),
-                  child: Text(labels[i], style: i == selectedIndex ? AppTextStyles.chipLabelSelected : AppTextStyles.chipLabel,),
+                  child: Text(labels[i].toUpperCase(), style: AppTextStyles.chipLabel,),
                 ),
               ),
             ),
