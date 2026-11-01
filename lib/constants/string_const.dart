@@ -14,6 +14,11 @@ class StringConst {
   static const homeHeroTitle = 'Discover your next style';
   static const categorySection = 'Category';
   static const wishlistTitle = 'Wishlist';
+  static const categoryTshirt = 'Tshirt';
+  static const categoryPant = 'Pant';
+  static const categoryDress = 'Dress';
+  static const categoryJacket = 'Jacket';
+  static const categoryShoes = 'Shoes';
 
   static const filterAll = 'All';
   static const filterNewest = 'Newest';
