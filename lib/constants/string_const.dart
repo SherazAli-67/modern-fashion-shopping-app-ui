@@ -34,7 +34,9 @@ class StringConst {
   static const filterKids = 'Kids';
 
   static const readMore = 'Read More';
+  static const readLess = 'Read Less';
   static const colorLabel = 'color';
   static const sizeLabel = 'Size :';
   static const addToCart = 'Add to cart';
+  static const productNotFound = 'Product not found';
 }

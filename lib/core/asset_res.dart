@@ -33,6 +33,7 @@ class AssetRes {
   static const accentDot = '${_iconsPath}accent_dot.svg';
   static const icArrowBack = '${_iconsPath}ic_arrow_back.svg';
   static const icArrowNext = '${_iconsPath}ic_arrow_next.svg';
+  static const icChevronDown = '${_iconsPath}ic_chevron_down.svg';
   static const icCart = '${_iconsPath}ic_cart.svg';
   static const icExpand = '${_iconsPath}ic_expand.svg';
   static const icFavoriteFilled = '${_iconsPath}ic_favorite_filled.svg';
