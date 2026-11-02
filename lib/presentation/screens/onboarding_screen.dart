@@ -22,14 +22,14 @@ class OnboardingScreen extends StatelessWidget {
           child: Column(
             spacing: NumberConstant.itemSpacing,
             children: [
-              _buildWatermark(),
+              // _buildWatermark(),
               Expanded(flex: 5, child: _buildCollage()),
               _buildHeadline(),
-              PrimaryPillButton(
+              /*PrimaryPillButton(
                 label: StringConst.onboardingCta,
                 trailingIcon: AssetRes.icArrowNext,
                 onTap: () => context.go(NamedRoutes.home.routeName),
-              ),
+              ),*/
             ],
           ),
         ),
@@ -57,48 +57,52 @@ class OnboardingScreen extends StatelessWidget {
       children: [
         Align(
           alignment: const Alignment(1.35, -0.05),
-          child: SvgPicture.asset(AssetRes.ringLarge),
+          //svg: ringLarge
+          child: const SizedBox()
         ),
         Align(
           alignment: const Alignment(-1.25, 0.55),
-          child: SvgPicture.asset(AssetRes.ringSmall),
+          //svg: ringSmall
+          child: SizedBox()
         ),
         Align(
           alignment: const Alignment(-0.05, -0.95),
-          child: SvgPicture.asset(AssetRes.icFlower, colorFilter: .mode(AppColors.white, .srcIn),),
+          //icFlower
+          child: SizedBox()
         ),
         Align(
           alignment: const Alignment(0.05, 0.98),
-          child: SvgPicture.asset(AssetRes.icFlower, colorFilter: .mode(AppColors.accent, .srcIn),),
+          //icFlower, accent
+          child:SizedBox()
         ),
         Row(
           spacing: NumberConstant.collageGap,
           crossAxisAlignment: .stretch,
           children: [
-            Expanded(
+           /* Expanded(
               child: _buildCollageImage(
                 asset: AssetRes.splashImg1,
                 borderRadius: .circular(NumberConstant.onboardingImageRadius),
               ),
-            ),
+            ),*/
             Expanded(
               child: Column(
                 spacing: NumberConstant.collageGap,
                 children: [
-                  Expanded(
+                 /* Expanded(
                     flex: 5,
                     child: _buildCollageImage(
                       asset: AssetRes.splashImg3,
                       borderRadius: .circular(NumberConstant.onboardingRightImageRadius),
                     ),
-                  ),
-                  Expanded(
+                  ),*/
+                 /* Expanded(
                     flex: 4,
                     child: _buildCollageImage(
                       asset: AssetRes.splashImg2,
                       borderRadius: .circular(NumberConstant.onboardingRightImageRadius),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -119,24 +123,23 @@ class OnboardingScreen extends StatelessWidget {
     return Column(
       spacing: NumberConstant.onboardingHeadlineSpacing,
       children: [
-        Text(StringConst.onboardingLine1, style: AppTextStyles.onboardingHeadline, textAlign: .center,),
+        //onboardingHeadline1, onboardingHeadline, .center
         Stack(
           alignment: .centerLeft,
           children: [
-            SvgPicture.asset(AssetRes.icHeadlineUnderline),
-
+            //icHeadlineUnderline
             Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: StringConst.onboardingLine2Prefix, style: AppTextStyles.onboardingHeadlineAccent),
-                  TextSpan(text: StringConst.onboardingLine2Suffix, style: AppTextStyles.onboardingHeadline),
+                  //onboardingLine2Prefix, onboardingHeadlineAccent,
+                  //onboardingLine2Suffix, onboardingHeadline
                 ],
               ),
               textAlign: .center,
             ),
           ],
         ),
-        Text(StringConst.onboardingLine3, style: AppTextStyles.onboardingHeadline, textAlign: .center,),
+        //onboardingHeadline3, onboardingHeadline, .center
       ],
     );
   }

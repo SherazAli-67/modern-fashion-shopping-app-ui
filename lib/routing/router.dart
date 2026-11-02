@@ -6,7 +6,7 @@ import 'package:modern_shopping_app_ui/presentation/screens/splash_screen.dart';
 import 'package:modern_shopping_app_ui/presentation/screens/wishlist_screen.dart';
 
 GoRouter router = GoRouter(
-  initialLocation: NamedRoutes.splash.routeName,
+  initialLocation: NamedRoutes.home.routeName,
   routes: [
     GoRoute(path: NamedRoutes.splash.routeName, builder: (ctx, state) => const SplashScreen()),
     GoRoute(path: NamedRoutes.onboarding.routeName, builder: (ctx, state) => const OnboardingScreen()),

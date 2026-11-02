@@ -15,7 +15,7 @@ class AppTextStyles {
   );
 
   static const onboardingWatermark = TextStyle(
-    fontFamily: _font,
+    fontFamily: StringConst.appFontFamilyMelodrama,
     fontWeight: .w400,
     fontSize: 74,
     letterSpacing: 14.8,

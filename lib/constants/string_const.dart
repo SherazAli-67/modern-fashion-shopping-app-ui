@@ -1,6 +1,7 @@
 class StringConst {
   static const appTitle = 'Modern Fashion Shopping';
   static const appFontFamily = 'ClashDisplay';
+  static const appFontFamilyMelodrama = 'Melodrama';
 
   static const splashBrand = 'fashion';
   static const onboardingWatermark = 'FASHION';

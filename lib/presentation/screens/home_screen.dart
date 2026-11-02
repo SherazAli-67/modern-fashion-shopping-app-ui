@@ -70,16 +70,16 @@ class _HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: .start,
             children: [
-              Text(StringConst.homeWelcome.toUpperCase(), style: AppTextStyles.homeWelcome,),
-              Text(StringConst.homeUserName.toUpperCase(), style: AppTextStyles.homeUserName,),
+              //homeWelcome.toUpperCase(), homeWelcome,
+              //homeUserName.toUpper, homeUserName
             ],
           ),
         ),
         Row(
           spacing: NumberConstant.tightSpacing,
           children: [
-            CircularIconButton(icon: AssetRes.icSearch, onTap: () {},),
-            CircularIconButton(icon: AssetRes.icCart, showBadge: true, onTap: () => context.push(NamedRoutes.wishlist.routeName),),
+            // CircularIconButton(icon: AssetRes.icSearch, onTap: () {},),
+            // CircularIconButton(icon: AssetRes.icCart, showBadge: true, onTap: () => context.push(NamedRoutes.wishlist.routeName),),
           ],
         ),
       ],
@@ -94,7 +94,8 @@ class _HomeView extends StatelessWidget {
         children: [
           Align(
               alignment: .topStart,
-              child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8)),
+              // child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8),
+          ),
           Expanded(
             child: Padding(
               padding: .symmetric(vertical: NumberConstant.sectionSpacing),
@@ -104,20 +105,21 @@ class _HomeView extends StatelessWidget {
                   Text.rich(
                     TextSpan(
                       children: [
-                        TextSpan(text: StringConst.homeHeroPrefix.toUpperCase(), style: AppTextStyles.homeHeroTitle),
-                        TextSpan(text: StringConst.homeHeroHighlight.toUpperCase(), style: AppTextStyles.homeHeroHighlight),
+                        //homeHeroPrefix.toUpper, homeHeroTitle,
+                        //homeHeroHighlight.toUpper, homeHeroHighlight
                       ],
                     ),
                     textAlign: .center,
                   ),
-                  SvgPicture.asset(AssetRes.icStyleRings),
+                  //icStyleRings
                 ],
               ),
             ),
           ),
           Align(
             alignment: .bottomEnd,
-              child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8)),
+              // child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8),
+          ),
       
         ],
       ),
@@ -151,8 +153,8 @@ class _HomeView extends StatelessWidget {
         Row(
           spacing: 8,
           children: [
-            Text(StringConst.categorySection.toUpperCase(), style: AppTextStyles.sectionTitle,),
-            Image.asset(AssetRes.icCategoryFire, width: NumberConstant.categoryFireWidth, height: NumberConstant.categoryFireHeight,),
+            //categorySection.toUpper, sectionTitle,
+            //img: icCategoryFire, width: categoryFireWidthHeigh
           ],
         ),
         SingleChildScrollView(
@@ -174,7 +176,6 @@ class _HomeView extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: NumberConstant.categoryItemWidth,
-
         child: Column(
               spacing: NumberConstant.tightSpacing,
               children: [
@@ -183,12 +184,12 @@ class _HomeView extends StatelessWidget {
                   height: NumberConstant.categoryAvatarSize,
                   decoration: BoxDecoration(
                       shape: .circle,
-                      border: Border.all(color: selected ? AppColors.accent : Colors.transparent, width: 2),
-                    image: DecorationImage(image: AssetImage(category.image,), fit: .cover)
+                      // border: Border.all(color: selected ? AppColors.accent : Colors.transparent, width: 2),
+                    // image: DecorationImage(image: AssetImage(category.image,), fit: .cover)
                   ),
 
                 ),
-                Text(category.name.toUpperCase(), style: selected ? AppTextStyles.categoryLabelSelected : AppTextStyles.categoryLabel, textAlign: .center, maxLines: 1, overflow: .ellipsis,),
+                // Text(category.name.toUpperCase(), style: selected ? AppTextStyles.categoryLabelSelected : AppTextStyles.categoryLabel, textAlign: .center, maxLines: 1, overflow: .ellipsis,),
               ],
             ),
       ),

@@ -31,15 +31,15 @@ class ProductGridCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: .circular(NumberConstant.productCardRadius),
+        // borderRadius: .circular(NumberConstant.productCardRadius),
         child: Stack(
           fit: .expand,
           children: [
-            Image.asset(product.image, fit: .cover,),
+            //product.image, fit.cover
             Container(
               decoration: BoxDecoration(
-                  borderRadius: .circular(NumberConstant.productCardRadius),
-                  gradient: LinearGradient(colors: [
+                  // borderRadius: .circular(NumberConstant.productCardRadius),
+                 /* gradient: LinearGradient(colors: [
                     Colors.black.withValues(alpha: 0.0),
                     Colors.black
                   ],
@@ -49,7 +49,7 @@ class ProductGridCard extends StatelessWidget {
                         0.63,
                         1
                       ]
-                  )
+                  )*/
               ),
             ),
             Positioned(
@@ -58,13 +58,14 @@ class ProductGridCard extends StatelessWidget {
               child: GestureDetector(
                 onTap: onFavoriteTap,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: AppColors.accent, shape: .circle),
+                  //AppColors.accent
+                  decoration: BoxDecoration(color: Colors.transparent, shape: .circle),
                   child: Padding(
                     padding: .all(5),
-                    child: SvgPicture.asset(
+                   /* child: SvgPicture.asset(
                       isFavorite ? AssetRes.icFavoriteFilled : AssetRes.icFavoriteOutlined,
                       colorFilter: .mode(AppColors.white, .srcIn),
-                    ),
+                    ),*/
                   ),
                 ),
               ),
@@ -81,22 +82,23 @@ class ProductGridCard extends StatelessWidget {
                       crossAxisAlignment: .start,
                       mainAxisSize: .min,
                       children: [
-                        Text(product.brand, style: AppTextStyles.productBrand, maxLines: 1, overflow: .ellipsis,),
-                        Text('\$${product.price.toStringAsFixed(2)}', style: AppTextStyles.productPrice,),
+                        //product.brand, productBrand
+                        //\$${product.price.toStringAsFixed(2)}, productPrice
                       ],
                     ),
                   ),
                   GestureDetector(
                     onTap: onActionTap ?? onTap,
                     child: DecoratedBox(
-                      decoration: BoxDecoration(color: AppColors.iconButtonBg, shape: .circle),
-                      child: Padding(
+                      //iconButtonBgColor
+                      decoration: BoxDecoration(color: Colors.transparent, shape: .circle),
+                     /* child: Padding(
                         padding: .all(NumberConstant.iconButtonPadding / 2),
                         child: SvgPicture.asset(
                           action == .navigate ? AssetRes.icRedirect : AssetRes.icCart,
                           colorFilter: .mode(AppColors.white, .srcIn),
                         ),
-                      ),
+                      ),*/
                     ),
                   ),
                 ],

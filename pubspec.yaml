@@ -52,3 +52,7 @@ flutter:
           weight: 600
         - asset: assets/fonts/ClashDisplay-Bold.otf
           weight: 700
+    - family: Melodrama
+      fonts:
+        - asset: assets/fonts/Melodrama-Regular.ttf
+          weight: 400
