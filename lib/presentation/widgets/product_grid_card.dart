@@ -40,7 +40,10 @@ class ProductGridCard extends StatelessWidget {
                 borderRadius: .circular(NumberConstant.productCardRadius),
                 child: Hero(
                   tag: 'product-image-${product.id}',
-                  child: Image.asset(product.image, fit: .cover),
+                  child: Material(
+                    type: .transparency,
+                    child: Image.asset(product.image, fit: .cover),
+                  ),
                 ),
               ),
               Container(

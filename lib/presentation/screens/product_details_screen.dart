@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modern_shopping_app_ui/constants/number_constant.dart';
 import 'package:modern_shopping_app_ui/constants/string_const.dart';
+import 'package:modern_shopping_app_ui/core/app_animations.dart';
 import 'package:modern_shopping_app_ui/core/app_colors.dart';
 import 'package:modern_shopping_app_ui/core/app_data.dart';
 import 'package:modern_shopping_app_ui/core/app_textstyles.dart';
@@ -32,10 +33,22 @@ class ProductDetailsScreen extends StatelessWidget {
                 alignment: .centerLeft,
                 child: Padding(
                   padding: .all(NumberConstant.horizontalPadding),
-                  child: CircularIconButton(icon: AssetRes.icArrowBack, onTap: () => context.pop(),),
+                  child: PressableScale(
+                    child: CircularIconButton(
+                      icon: AssetRes.icArrowBack,
+                      onTap: () => context.pop(),
+                    ),
+                  ),
                 ),
               ),
-              const Expanded(child: Center(child: Text(StringConst.productNotFound, style: AppTextStyles.sectionTitle,),)),
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    StringConst.productNotFound,
+                    style: AppTextStyles.sectionTitle,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -49,8 +62,31 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 }
 
-class _ProductDetailsView extends StatelessWidget {
+class _ProductDetailsView extends StatefulWidget {
   const _ProductDetailsView();
+
+  @override
+  State<_ProductDetailsView> createState() => _ProductDetailsViewState();
+}
+
+class _ProductDetailsViewState extends State<_ProductDetailsView>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _entranceController;
+
+  @override
+  void initState() {
+    super.initState();
+    _entranceController = AnimationController(
+      vsync: this,
+      duration: AppAnimations.details,
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _entranceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,53 +97,137 @@ class _ProductDetailsView extends StatelessWidget {
       backgroundColor: AppColors.black,
       body: Stack(
         children: [
-          Image.asset(provider.selectedImage, fit: .cover, width: double.infinity, height: double.infinity,),
-        SafeArea(child: Padding(
-          padding: const .symmetric(horizontal: 24.0),
-          child: Row(
-            mainAxisAlignment: .spaceBetween,
-            children: [
-              CircularIconButton(icon: AssetRes.icArrowBack, backgroundColor: AppColors.chipBg.withValues(alpha: 0.16),),
-              CircularIconButton(icon: AssetRes.icExpand, backgroundColor: AppColors.chipBg.withValues(alpha: 0.16),),
-            ],
+          Positioned.fill(
+            child: Hero(
+              tag: 'product-image-${product.id}',
+              child: Material(
+                type: .transparency,
+                child: AnimatedSwitcher(
+                  duration: AppAnimations.normal,
+                  switchInCurve: AppAnimations.easeOutCubic,
+                  switchOutCurve: AppAnimations.easeOutCubic,
+                  child: Image.asset(
+                    provider.selectedImage,
+                    key: ValueKey(provider.selectedImage),
+                    fit: .cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+            ),
           ),
-        )),
-        Positioned(
+          /*SafeArea(
+            child: Padding(
+              padding: const .symmetric(horizontal: 24),
+              child: FadeSlideIn(
+                parent: _entranceController,
+                begin: 0,
+                end: 0.4,
+                offset: const Offset(0, -0.08),
+                child: Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [
+
+                    PressableScale(
+                      child: CircularIconButton(
+                        icon: AssetRes.icArrowBack,
+                        backgroundColor: AppColors.chipBg.withValues(alpha: 0.16),
+                        onTap: () => context.pop(),
+                      ),
+                    ),
+                    PressableScale(
+                      child: CircularIconButton(
+                        icon: AssetRes.icExpand,
+                        backgroundColor: AppColors.chipBg.withValues(alpha: 0.16),
+                        onTap: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),*/
+          Positioned(
             left: 0,
             right: 0,
             bottom: 0,
-            child: _buildDetailsSheet(context, provider, product))
+            child: FadeSlideIn(
+              parent: _entranceController,
+              begin: 0.15,
+              end: 0.9,
+              offset: const Offset(0, 0.18),
+              child: _buildDetailsSheet(context, provider, product),
+            ),
+          ),
         ],
       ),
     );
   }
 
-
-
-  Widget _buildDetailsSheet(BuildContext context, ProductDetailsProvider provider, ProductModel product) {
+  Widget _buildDetailsSheet(
+    BuildContext context,
+    ProductDetailsProvider provider,
+    ProductModel product,
+  ) {
     return Column(
       spacing: 18,
       children: [
         SingleChildScrollView(
           scrollDirection: .horizontal,
+          padding: .symmetric(horizontal: NumberConstant.horizontalPadding),
           child: Row(
             spacing: 10,
-            children: provider.gallery.map((gallery){
-              return ClipRRect(
-                  borderRadius: .circular(NumberConstant.productCardRadius),
-                  child: Image.asset(gallery, fit: .cover, height: 75, width: 75,));
-            }).toList()
+            children: [
+              for (var i = 0; i < provider.gallery.length; i++)
+                PressableScale(
+                  child: GestureDetector(
+                    onTap: () => provider.selectImage(i),
+                    child: AnimatedContainer(
+                      duration: AppAnimations.fast,
+                      curve: AppAnimations.easeInOut,
+                      decoration: BoxDecoration(
+                        borderRadius: .circular(NumberConstant.productCardRadius),
+                        border: Border.all(
+                          color: provider.selectedImageIndex == i
+                              ? AppColors.accent
+                              : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: .circular(
+                          NumberConstant.productCardRadius - 2,
+                        ),
+                        child: Image.asset(
+                          provider.gallery[i],
+                          fit: .cover,
+                          height: NumberConstant.thumbnailSize,
+                          width: NumberConstant.thumbnailSize,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
         DecoratedBox(
           decoration: BoxDecoration(
             color: AppColors.black,
-            borderRadius: .vertical(top: .circular(NumberConstant.detailsSheetRadius)),
+            borderRadius: .vertical(
+              top: .circular(NumberConstant.detailsSheetRadius),
+            ),
           ),
           child: SafeArea(
             top: false,
             child: Padding(
-              padding: .fromLTRB(NumberConstant.horizontalPadding, NumberConstant.verticalPadding, NumberConstant.horizontalPadding, NumberConstant.verticalPadding),
+              padding: .fromLTRB(
+                NumberConstant.horizontalPadding,
+                NumberConstant.verticalPadding,
+                NumberConstant.horizontalPadding,
+                NumberConstant.verticalPadding,
+              ),
               child: Column(
                 spacing: NumberConstant.itemSpacing,
                 mainAxisSize: .min,
@@ -117,8 +237,16 @@ class _ProductDetailsView extends StatelessWidget {
                     spacing: 4,
                     crossAxisAlignment: .start,
                     children: [
-                      Text(product.category.toUpperCase(), style: AppTextStyles.detailsCategory, textAlign: .center,),
-                      Text(product.brand.toUpperCase(), style: AppTextStyles.detailsTitle, textAlign: .center,),
+                      Text(
+                        product.category.toUpperCase(),
+                        style: AppTextStyles.detailsCategory,
+                        textAlign: .center,
+                      ),
+                      Text(
+                        product.brand.toUpperCase(),
+                        style: AppTextStyles.detailsTitle,
+                        textAlign: .center,
+                      ),
                     ],
                   ),
                   _buildDescription(provider, product),
@@ -134,25 +262,39 @@ class _ProductDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildDescription(ProductDetailsProvider provider, ProductModel product) {
+  Widget _buildDescription(
+    ProductDetailsProvider provider,
+    ProductModel product,
+  ) {
     final canExpand = product.description.length > 90;
     final body = !canExpand || provider.isDescriptionExpanded
         ? '${product.description} '
         : '${product.description.substring(0, 90)}… ';
-    return Text.rich(
-      TextSpan(
-        children: [
-          TextSpan(text: body, style: AppTextStyles.detailsDescription),
-          if (canExpand)
-            WidgetSpan(
-              alignment: .baseline,
-              baseline: .alphabetic,
-              child: GestureDetector(
-                onTap: provider.toggleDescription,
-                child: Text(provider.isDescriptionExpanded ? StringConst.readLess : StringConst.readMore, style: AppTextStyles.detailsReadMore,),
+
+    return AnimatedSize(
+      duration: AppAnimations.normal,
+      curve: AppAnimations.easeInOut,
+      alignment: .topLeft,
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(text: body, style: AppTextStyles.detailsDescription),
+            if (canExpand)
+              WidgetSpan(
+                alignment: .baseline,
+                baseline: .alphabetic,
+                child: GestureDetector(
+                  onTap: provider.toggleDescription,
+                  child: Text(
+                    provider.isDescriptionExpanded
+                        ? StringConst.readLess
+                        : StringConst.readMore,
+                    style: AppTextStyles.detailsReadMore,
+                  ),
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -176,38 +318,88 @@ class _ProductDetailsView extends StatelessWidget {
                     onTap: provider.selectNextColor,
                     behavior: .opaque,
                     child: Padding(
-                      padding: .symmetric(horizontal: NumberConstant.itemSpacing),
+                      padding: .symmetric(
+                        horizontal: NumberConstant.itemSpacing,
+                      ),
                       child: Row(
                         spacing: NumberConstant.tightSpacing,
                         children: [
-                          Text(StringConst.colorLabel.toUpperCase(), style: AppTextStyles.detailsSelector,),
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Color(int.parse('FF${provider.selectedColor.substring(1)}', radix: 16)),
-                              borderRadius: .circular(NumberConstant.pillRadius),
-                              border: .all(color: AppColors.whiteBorder),
-                            ),
-                            child: const SizedBox(width: 40, height: 18),
+                          Text(
+                            StringConst.colorLabel.toUpperCase(),
+                            style: AppTextStyles.detailsSelector,
                           ),
-                          SvgPicture.asset(AssetRes.icChevronDown, colorFilter: .mode(AppColors.white, .srcIn),),
+                          AnimatedSwitcher(
+                            duration: AppAnimations.fast,
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: ScaleTransition(
+                                  scale: animation,
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: DecoratedBox(
+                              key: ValueKey(provider.selectedColor),
+                              decoration: BoxDecoration(
+                                color: Color(
+                                  int.parse(
+                                    'FF${provider.selectedColor.substring(1)}',
+                                    radix: 16,
+                                  ),
+                                ),
+                                borderRadius: .circular(
+                                  NumberConstant.pillRadius,
+                                ),
+                                border: .all(color: AppColors.whiteBorder),
+                              ),
+                              child: const SizedBox(width: 40, height: 18),
+                            ),
+                          ),
+                          SvgPicture.asset(
+                            AssetRes.icChevronDown,
+                            colorFilter: .mode(AppColors.white, .srcIn),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-                const ColoredBox(color: AppColors.border, child: SizedBox(width: 1, height: 30)),
+                const ColoredBox(
+                  color: AppColors.border,
+                  child: SizedBox(width: 1, height: 30),
+                ),
                 Expanded(
                   child: GestureDetector(
                     onTap: provider.selectNextSize,
                     behavior: .opaque,
                     child: Padding(
-                      padding: .symmetric(horizontal: NumberConstant.itemSpacing),
+                      padding: .symmetric(
+                        horizontal: NumberConstant.itemSpacing,
+                      ),
                       child: Row(
                         spacing: NumberConstant.tightSpacing,
                         mainAxisAlignment: .center,
                         children: [
-                          Text('${StringConst.sizeLabel} ${provider.selectedSize}'.toUpperCase(), style: AppTextStyles.detailsSelector,),
-                          SvgPicture.asset(AssetRes.icChevronDown, colorFilter: .mode(AppColors.white, .srcIn),),
+                          AnimatedSwitcher(
+                            duration: AppAnimations.fast,
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                            child: Text(
+                              '${StringConst.sizeLabel} ${provider.selectedSize}'
+                                  .toUpperCase(),
+                              key: ValueKey(provider.selectedSize),
+                              style: AppTextStyles.detailsSelector,
+                            ),
+                          ),
+                          SvgPicture.asset(
+                            AssetRes.icChevronDown,
+                            colorFilter: .mode(AppColors.white, .srcIn),
+                          ),
                         ],
                       ),
                     ),
@@ -228,18 +420,27 @@ class _ProductDetailsView extends StatelessWidget {
         Column(
           crossAxisAlignment: .start,
           children: [
-            Text('\$${product.price.toStringAsFixed(2)}', style: AppTextStyles.detailsPrice,),
-            if (product.oldPrice != null) Text('\$${product.oldPrice!.toStringAsFixed(2)}', style: AppTextStyles.detailsOldPrice,),
+            Text(
+              '\$${product.price.toStringAsFixed(2)}',
+              style: AppTextStyles.detailsPrice,
+            ),
+            if (product.oldPrice != null)
+              Text(
+                '\$${product.oldPrice!.toStringAsFixed(2)}',
+                style: AppTextStyles.detailsOldPrice,
+              ),
           ],
         ),
         Expanded(
-          child: PrimaryPillButton(
-            label: StringConst.addToCart.toUpperCase(),
-            backgroundColor: AppColors.white,
-            textStyle: AppTextStyles.addToCart,
-            height: NumberConstant.addToCartHeight,
-            borderColor: AppColors.whiteBorder,
-            onTap: () {},
+          child: PressableScale(
+            child: PrimaryPillButton(
+              label: StringConst.addToCart.toUpperCase(),
+              backgroundColor: AppColors.white,
+              textStyle: AppTextStyles.addToCart,
+              height: NumberConstant.addToCartHeight,
+              borderColor: AppColors.whiteBorder,
+              onTap: () {},
+            ),
           ),
         ),
       ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modern_shopping_app_ui/constants/number_constant.dart';
 import 'package:modern_shopping_app_ui/constants/string_const.dart';
+import 'package:modern_shopping_app_ui/core/app_animations.dart';
 import 'package:modern_shopping_app_ui/core/app_colors.dart';
 import 'package:modern_shopping_app_ui/core/app_data.dart';
 import 'package:modern_shopping_app_ui/core/app_textstyles.dart';
@@ -26,38 +27,107 @@ class WishlistScreen extends StatelessWidget {
   }
 }
 
-class _WishlistView extends StatelessWidget {
+class _WishlistView extends StatefulWidget {
   const _WishlistView();
+
+  @override
+  State<_WishlistView> createState() => _WishlistViewState();
+}
+
+class _WishlistViewState extends State<_WishlistView>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _entranceController;
+
+  @override
+  void initState() {
+    super.initState();
+    _entranceController = AnimationController(
+      vsync: this,
+      duration: AppAnimations.wishlist,
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _entranceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WishlistProvider>();
     final products = provider.wishlistProducts;
-    final leftProducts = [for (var i = 0; i < products.length; i += 2) products[i]];
-    final rightProducts = [for (var i = 1; i < products.length; i += 2) products[i]];
+    final leftProducts = [
+      for (var i = 0; i < products.length; i += 2) products[i],
+    ];
+    final rightProducts = [
+      for (var i = 1; i < products.length; i += 2) products[i],
+    ];
 
     return Scaffold(
       backgroundColor: AppColors.black,
       body: SafeArea(
         child: Padding(
-          padding: .fromLTRB(NumberConstant.horizontalPadding, NumberConstant.itemSpacing, NumberConstant.horizontalPadding, 0),
+          padding: .fromLTRB(
+            NumberConstant.horizontalPadding,
+            NumberConstant.itemSpacing,
+            NumberConstant.horizontalPadding,
+            0,
+          ),
           child: Column(
             spacing: NumberConstant.itemSpacing,
             crossAxisAlignment: .stretch,
             children: [
-              _buildHeader(context),
-              FilterChipRow(
-                labels: AppData.wishlistFilters,
-                selectedIndex: provider.selectedFilterIndex,
-                onSelected: provider.selectFilter,
+              FadeSlideIn(
+                parent: _entranceController,
+                begin: 0,
+                end: 0.4,
+                offset: const Offset(0, -0.08),
+                child: _buildHeader(context),
+              ),
+              FadeSlideIn(
+                parent: _entranceController,
+                begin: 0.15,
+                end: 0.55,
+                child: FilterChipRow(
+                  labels: AppData.wishlistFilters,
+                  selectedIndex: provider.selectedFilterIndex,
+                  onSelected: provider.selectFilter,
+                ),
               ),
               Expanded(
-                child: products.isEmpty
-                    ? const Center(child: Text(StringConst.wishlistTitle, style: AppTextStyles.sectionTitle,),)
-                    : SingleChildScrollView(
-                        padding: .only(bottom: NumberConstant.sectionSpacing),
-                        child: _buildProductGrid(context, provider, leftProducts, rightProducts),
-                      ),
+                child: FadeSlideIn(
+                  parent: _entranceController,
+                  begin: 0.3,
+                  end: 0.95,
+                  child: AnimatedSwitcher(
+                    duration: AppAnimations.normal,
+                    switchInCurve: AppAnimations.easeOutCubic,
+                    switchOutCurve: AppAnimations.easeOutCubic,
+                    child: products.isEmpty
+                        ? const Center(
+                            key: ValueKey('wishlist-empty'),
+                            child: Text(
+                              StringConst.wishlistTitle,
+                              style: AppTextStyles.sectionTitle,
+                            ),
+                          )
+                        : KeyedSubtree(
+                            key: ValueKey(provider.selectedFilterIndex),
+                            child: SingleChildScrollView(
+                              padding: .only(
+                                bottom: NumberConstant.sectionSpacing,
+                              ),
+                              child: _buildProductGrid(
+                                context,
+                                provider,
+                                leftProducts,
+                                rightProducts,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -69,43 +139,77 @@ class _WishlistView extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Row(
       children: [
-        CircularIconButton(icon: AssetRes.icArrowBack, onTap: () => context.pop(),),
-        Expanded(child: Text(StringConst.wishlistTitle.toUpperCase(), style: AppTextStyles.screenTitle, textAlign: .center,),),
-        CircularIconButton(icon: AssetRes.icCart, showBadge: true, onTap: () {},),
-      ],
-    );
-  }
-
-  Widget _buildProductGrid(BuildContext context, WishlistProvider provider, List<ProductModel> leftProducts, List<ProductModel> rightProducts) {
-    return Row(
-      spacing: NumberConstant.productGridGap,
-      crossAxisAlignment: .start,
-      children: [
-        Expanded(child: _buildProductColumn(context, provider, leftProducts)),
+        PressableScale(
+          child: CircularIconButton(
+            icon: AssetRes.icArrowBack,
+            onTap: () => context.pop(),
+          ),
+        ),
         Expanded(
-          child: Padding(
-            padding: .only(top: NumberConstant.productGridStagger),
-            child: _buildProductColumn(context, provider, rightProducts),
+          child: Text(
+            StringConst.wishlistTitle.toUpperCase(),
+            style: AppTextStyles.screenTitle,
+            textAlign: .center,
+          ),
+        ),
+        PressableScale(
+          child: CircularIconButton(
+            icon: AssetRes.icCart,
+            showBadge: true,
+            onTap: () {},
           ),
         ),
       ],
     );
   }
 
-  Widget _buildProductColumn(BuildContext context, WishlistProvider provider, List<ProductModel> products) {
+  Widget _buildProductGrid(
+    BuildContext context,
+    WishlistProvider provider,
+    List<ProductModel> leftProducts,
+    List<ProductModel> rightProducts,
+  ) {
+    return Row(
+      spacing: NumberConstant.productGridGap,
+      crossAxisAlignment: .start,
+      children: [
+        Expanded(
+          child: _buildProductColumn(context, provider, leftProducts, 0),
+        ),
+        Expanded(
+          child: Padding(
+            padding: .only(top: NumberConstant.productGridStagger),
+            child: _buildProductColumn(context, provider, rightProducts, 1),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductColumn(
+    BuildContext context,
+    WishlistProvider provider,
+    List<ProductModel> products,
+    int columnOffset,
+  ) {
     return Column(
       spacing: NumberConstant.productGridGap,
       children: [
-        for (final product in products)
-          AspectRatio(
-            aspectRatio: NumberConstant.productCardAspectRatio,
-            child: ProductGridCard(
-              product: product,
-              action: .addToCart,
-              isFavorite: provider.isFavorite(product.id),
-              onFavoriteTap: () => provider.toggleFavorite(product.id),
-              onTap: () => context.push(NamedRoutes.productDetails.detailsPath(product.id)),
-              onActionTap: () {},
+        for (var i = 0; i < products.length; i++)
+          StaggeredFadeSlide(
+            index: i * 2 + columnOffset,
+            child: AspectRatio(
+              aspectRatio: NumberConstant.productCardAspectRatio,
+              child: ProductGridCard(
+                product: products[i],
+                action: .addToCart,
+                isFavorite: provider.isFavorite(products[i].id),
+                onFavoriteTap: () => provider.toggleFavorite(products[i].id),
+                onTap: () => context.push(
+                  NamedRoutes.productDetails.detailsPath(products[i].id),
+                ),
+                onActionTap: () {},
+              ),
             ),
           ),
       ],

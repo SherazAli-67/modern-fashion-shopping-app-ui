@@ -9,6 +9,8 @@ class AppAnimations {
   static const Duration splash = Duration(milliseconds: 900);
   static const Duration onboarding = Duration(milliseconds: 1100);
   static const Duration home = Duration(milliseconds: 900);
+  static const Duration details = Duration(milliseconds: 700);
+  static const Duration wishlist = Duration(milliseconds: 700);
   static const Duration badgeFloat = Duration(milliseconds: 2400);
   static const Duration staggerStep = Duration(milliseconds: 70);
 
