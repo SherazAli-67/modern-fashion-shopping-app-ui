@@ -36,10 +36,14 @@ class ProductGridCard extends StatelessWidget {
           fit: .expand,
           children: [
             //product.image, fit.cover
+            ClipRRect(
+              borderRadius: .circular(NumberConstant.productCardRadius),
+              child: Image.asset(product.image, fit: .cover,),
+            ),
             Container(
               decoration: BoxDecoration(
-                  // borderRadius: .circular(NumberConstant.productCardRadius),
-                 /* gradient: LinearGradient(colors: [
+                borderRadius: .circular(NumberConstant.productCardRadius),
+                 gradient: LinearGradient(colors: [
                     Colors.black.withValues(alpha: 0.0),
                     Colors.black
                   ],
@@ -49,7 +53,7 @@ class ProductGridCard extends StatelessWidget {
                         0.63,
                         1
                       ]
-                  )*/
+                  )
               ),
             ),
             Positioned(
@@ -59,13 +63,13 @@ class ProductGridCard extends StatelessWidget {
                 onTap: onFavoriteTap,
                 child: DecoratedBox(
                   //AppColors.accent
-                  decoration: BoxDecoration(color: Colors.transparent, shape: .circle),
+                  decoration: BoxDecoration(color: AppColors.accent, shape: .circle),
                   child: Padding(
                     padding: .all(5),
-                   /* child: SvgPicture.asset(
+                     child: SvgPicture.asset(
                       isFavorite ? AssetRes.icFavoriteFilled : AssetRes.icFavoriteOutlined,
                       colorFilter: .mode(AppColors.white, .srcIn),
-                    ),*/
+                    ),
                   ),
                 ),
               ),
@@ -83,7 +87,9 @@ class ProductGridCard extends StatelessWidget {
                       mainAxisSize: .min,
                       children: [
                         //product.brand, productBrand
-                        //\$${product.price.toStringAsFixed(2)}, productPrice
+                        Text(product.brand, style: AppTextStyles.productBrand,),
+                        //, productPrice
+                        Text('\$${product.price.toStringAsFixed(2)}', style: AppTextStyles.productPrice,)
                       ],
                     ),
                   ),
@@ -91,14 +97,14 @@ class ProductGridCard extends StatelessWidget {
                     onTap: onActionTap ?? onTap,
                     child: DecoratedBox(
                       //iconButtonBgColor
-                      decoration: BoxDecoration(color: Colors.transparent, shape: .circle),
-                     /* child: Padding(
+                      decoration: BoxDecoration(color: AppColors.iconButtonBg, shape: .circle),
+                       child: Padding(
                         padding: .all(NumberConstant.iconButtonPadding / 2),
                         child: SvgPicture.asset(
                           action == .navigate ? AssetRes.icRedirect : AssetRes.icCart,
                           colorFilter: .mode(AppColors.white, .srcIn),
                         ),
-                      ),*/
+                      ),
                     ),
                   ),
                 ],

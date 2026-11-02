@@ -13,8 +13,8 @@ class StringConst {
 
   static const homeWelcome = 'Welcome,';
   static const homeUserName = 'Sheraz Ali';
-  static const homeHeroPrefix = 'Discover your next ';
-  static const homeHeroHighlight = 'style';
+  static const homeHeroPrefix = 'Discover\nyour next ';
+  static const homeHeroHighlight = '\nstyle';
   static const categorySection = 'Category';
   static const discount20 = '-20%';
   static const discount50 = '-50%';
