@@ -59,95 +59,78 @@ class _ProductDetailsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.black,
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(child: _buildHero(context, provider)),
-          _buildDetailsSheet(context, provider, product),
+          Image.asset(provider.selectedImage, fit: .cover, width: double.infinity, height: double.infinity,),
+        SafeArea(child: Padding(
+          padding: const .symmetric(horizontal: 24.0),
+          child: Row(
+            mainAxisAlignment: .spaceBetween,
+            children: [
+              CircularIconButton(icon: AssetRes.icArrowBack, backgroundColor: AppColors.chipBg.withValues(alpha: 0.16),),
+              CircularIconButton(icon: AssetRes.icExpand, backgroundColor: AppColors.chipBg.withValues(alpha: 0.16),),
+            ],
+          ),
+        )),
+        Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: _buildDetailsSheet(context, provider, product))
         ],
       ),
     );
   }
 
-  Widget _buildHero(BuildContext context, ProductDetailsProvider provider) {
-    return Stack(
-      fit: .expand,
+
+
+  Widget _buildDetailsSheet(BuildContext context, ProductDetailsProvider provider, ProductModel product) {
+    return Column(
+      spacing: 18,
       children: [
-        Image.asset(provider.selectedImage, fit: .cover, width: double.infinity, height: double.infinity,),
-        SafeArea(
-          child: Padding(
-            padding: .symmetric(horizontal: NumberConstant.horizontalPadding, vertical: NumberConstant.tightSpacing),
-            child: Row(
-              mainAxisAlignment: .spaceBetween,
-              children: [
-                CircularIconButton(icon: AssetRes.icArrowBack, onTap: () => context.pop(),),
-                CircularIconButton(icon: AssetRes.icExpand, onTap: () {},),
-              ],
+        SingleChildScrollView(
+          scrollDirection: .horizontal,
+          child: Row(
+            spacing: 10,
+            children: provider.gallery.map((gallery){
+              return ClipRRect(
+                  borderRadius: .circular(NumberConstant.productCardRadius),
+                  child: Image.asset(gallery, fit: .cover, height: 75, width: 75,));
+            }).toList()
+          ),
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.black,
+            borderRadius: .vertical(top: .circular(NumberConstant.detailsSheetRadius)),
+          ),
+          child: SafeArea(
+            top: false,
+            child: Padding(
+              padding: .fromLTRB(NumberConstant.horizontalPadding, NumberConstant.verticalPadding, NumberConstant.horizontalPadding, NumberConstant.verticalPadding),
+              child: Column(
+                spacing: NumberConstant.itemSpacing,
+                mainAxisSize: .min,
+                crossAxisAlignment: .stretch,
+                children: [
+                  Column(
+                    spacing: 4,
+                    crossAxisAlignment: .start,
+                    children: [
+                      Text(product.category.toUpperCase(), style: AppTextStyles.detailsCategory, textAlign: .center,),
+                      Text(product.brand.toUpperCase(), style: AppTextStyles.detailsTitle, textAlign: .center,),
+                    ],
+                  ),
+                  _buildDescription(provider, product),
+                  const Divider(color: AppColors.border, height: 1),
+                  _buildSelectors(provider),
+                  _buildPriceRow(product),
+                ],
+              ),
             ),
           ),
         ),
-        Positioned(
-          left: NumberConstant.horizontalPadding,
-          right: NumberConstant.horizontalPadding,
-          bottom: NumberConstant.itemSpacing,
-          child: Row(
-            spacing: NumberConstant.tightSpacing,
-            children: [
-              for (var i = 0; i < provider.gallery.length; i++)
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => provider.selectImage(i),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: .circular(NumberConstant.thumbnailRadius),
-                        border: .all(color: i == provider.selectedImageIndex ? AppColors.white : AppColors.whiteBorder, width: 1.5),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: .circular(NumberConstant.thumbnailRadius - 1),
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.asset(provider.gallery[i], fit: .cover,),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
       ],
-    );
-  }
-
-  Widget _buildDetailsSheet(BuildContext context, ProductDetailsProvider provider, ProductModel product) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.black,
-        borderRadius: .vertical(top: .circular(NumberConstant.detailsSheetRadius)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: .fromLTRB(NumberConstant.horizontalPadding, NumberConstant.itemSpacing, NumberConstant.horizontalPadding, NumberConstant.itemSpacing),
-          child: Column(
-            spacing: NumberConstant.itemSpacing,
-            mainAxisSize: .min,
-            crossAxisAlignment: .stretch,
-            children: [
-              Column(
-                spacing: 4,
-                children: [
-                  Text(product.category.toUpperCase(), style: AppTextStyles.detailsCategory, textAlign: .center,),
-                  Text(product.brand.toUpperCase(), style: AppTextStyles.detailsTitle, textAlign: .center,),
-                ],
-              ),
-              _buildDescription(provider, product),
-              const Divider(color: AppColors.border, height: 1),
-              _buildSelectors(provider),
-              _buildPriceRow(product),
-            ],
-          ),
-        ),
-      ),
     );
   }
 

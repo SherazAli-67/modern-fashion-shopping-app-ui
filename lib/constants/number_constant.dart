@@ -1,5 +1,6 @@
 class NumberConstant {
   static const horizontalPadding = 24.0;
+  static const verticalPadding = 20.0;
   static const sectionSpacing = 28.0;
   static const itemSpacing = 16.0;
   static const tightSpacing = 10.0;
