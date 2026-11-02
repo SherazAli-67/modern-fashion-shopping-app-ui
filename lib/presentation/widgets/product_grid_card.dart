@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modern_shopping_app_ui/constants/number_constant.dart';
+import 'package:modern_shopping_app_ui/core/app_animations.dart';
 import 'package:modern_shopping_app_ui/core/app_colors.dart';
 import 'package:modern_shopping_app_ui/core/app_textstyles.dart';
 import 'package:modern_shopping_app_ui/core/asset_res.dart';
@@ -28,89 +29,114 @@ class ProductGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: ClipRRect(
-        // borderRadius: .circular(NumberConstant.productCardRadius),
-        child: Stack(
-          fit: .expand,
-          children: [
-            //product.image, fit.cover
-            ClipRRect(
-              borderRadius: .circular(NumberConstant.productCardRadius),
-              child: Image.asset(product.image, fit: .cover,),
-            ),
-            Container(
-              decoration: BoxDecoration(
+    return PressableScale(
+      child: GestureDetector(
+        onTap: onTap,
+        child: ClipRRect(
+          child: Stack(
+            fit: .expand,
+            children: [
+              ClipRRect(
                 borderRadius: .circular(NumberConstant.productCardRadius),
-                 gradient: LinearGradient(colors: [
-                    Colors.black.withValues(alpha: 0.0),
-                    Colors.black
-                  ],
-                      begin: .topCenter,
-                      end: .bottomCenter,
-                      stops: [
-                        0.63,
-                        1
-                      ]
-                  )
+                child: Hero(
+                  tag: 'product-image-${product.id}',
+                  child: Image.asset(product.image, fit: .cover),
+                ),
               ),
-            ),
-            Positioned(
-              top: NumberConstant.tightSpacing,
-              right: NumberConstant.tightSpacing,
-              child: GestureDetector(
-                onTap: onFavoriteTap,
-                child: DecoratedBox(
-                  //AppColors.accent
-                  decoration: BoxDecoration(color: AppColors.accent, shape: .circle),
-                  child: Padding(
-                    padding: .all(5),
-                     child: SvgPicture.asset(
-                      isFavorite ? AssetRes.icFavoriteFilled : AssetRes.icFavoriteOutlined,
-                      colorFilter: .mode(AppColors.white, .srcIn),
-                    ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: .circular(NumberConstant.productCardRadius),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.black.withValues(alpha: 0.0),
+                      Colors.black,
+                    ],
+                    begin: .topCenter,
+                    end: .bottomCenter,
+                    stops: const [0.63, 1],
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              left: NumberConstant.tightSpacing,
-              right: NumberConstant.tightSpacing,
-              bottom: NumberConstant.tightSpacing,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      spacing: 4,
-                      crossAxisAlignment: .start,
-                      mainAxisSize: .min,
-                      children: [
-                        //product.brand, productBrand
-                        Text(product.brand, style: AppTextStyles.productBrand,),
-                        //, productPrice
-                        Text('\$${product.price.toStringAsFixed(2)}', style: AppTextStyles.productPrice,)
-                      ],
+              Positioned(
+                top: NumberConstant.tightSpacing,
+                right: NumberConstant.tightSpacing,
+                child: GestureDetector(
+                  onTap: onFavoriteTap,
+                  child: DecoratedBox(
+                    decoration: const BoxDecoration(
+                      color: AppColors.accent,
+                      shape: .circle,
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: onActionTap ?? onTap,
-                    child: DecoratedBox(
-                      //iconButtonBgColor
-                      decoration: BoxDecoration(color: AppColors.iconButtonBg, shape: .circle),
-                       child: Padding(
-                        padding: .all(NumberConstant.iconButtonPadding / 2),
+                    child: Padding(
+                      padding: .all(5),
+                      child: AnimatedSwitcher(
+                        duration: AppAnimations.fast,
+                        switchInCurve: AppAnimations.easeOutCubic,
+                        switchOutCurve: AppAnimations.easeOutCubic,
+                        transitionBuilder: (child, animation) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            ),
+                          );
+                        },
                         child: SvgPicture.asset(
-                          action == .navigate ? AssetRes.icRedirect : AssetRes.icCart,
+                          isFavorite
+                              ? AssetRes.icFavoriteFilled
+                              : AssetRes.icFavoriteOutlined,
+                          key: ValueKey(isFavorite),
                           colorFilter: .mode(AppColors.white, .srcIn),
                         ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Positioned(
+                left: NumberConstant.tightSpacing,
+                right: NumberConstant.tightSpacing,
+                bottom: NumberConstant.tightSpacing,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        spacing: 4,
+                        crossAxisAlignment: .start,
+                        mainAxisSize: .min,
+                        children: [
+                          Text(product.brand, style: AppTextStyles.productBrand),
+                          Text(
+                            '\$${product.price.toStringAsFixed(2)}',
+                            style: AppTextStyles.productPrice,
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: onActionTap ?? onTap,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          color: AppColors.iconButtonBg,
+                          shape: .circle,
+                        ),
+                        child: Padding(
+                          padding: .all(NumberConstant.iconButtonPadding / 2),
+                          child: SvgPicture.asset(
+                            action == .navigate
+                                ? AssetRes.icRedirect
+                                : AssetRes.icCart,
+                            colorFilter: .mode(AppColors.white, .srcIn),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
