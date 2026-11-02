@@ -70,8 +70,8 @@ class _HomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: .start,
             children: [
-              Text(StringConst.homeWelcome, style: AppTextStyles.homeWelcome,),
-              Text(StringConst.homeUserName, style: AppTextStyles.homeUserName,),
+              Text(StringConst.homeWelcome.toUpperCase(), style: AppTextStyles.homeWelcome,),
+              Text(StringConst.homeUserName.toUpperCase(), style: AppTextStyles.homeUserName,),
             ],
           ),
         ),
@@ -87,39 +87,40 @@ class _HomeView extends StatelessWidget {
   }
 
   Widget _buildHero() {
-    return Stack(
-      clipBehavior: .none,
-      alignment: .center,
-      children: [
-        Positioned(
-          left: 0,
-          top: 0,
-          child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8),
-        ),
-        Positioned(
-          right: 0,
-          bottom: 8,
-          child: _buildDiscountBadge(label: StringConst.discount50, angle: 0.5),
-        ),
-        Padding(
-          padding: .symmetric(horizontal: NumberConstant.itemSpacing, vertical: NumberConstant.sectionSpacing),
-          child: Column(
-            spacing: 4,
-            children: [
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(text: StringConst.homeHeroPrefix, style: AppTextStyles.homeHeroTitle),
-                    TextSpan(text: StringConst.homeHeroHighlight, style: AppTextStyles.homeHeroHighlight),
-                  ],
-                ),
-                textAlign: .center,
+    return IntrinsicHeight(
+      child: Row(
+        mainAxisSize: .min,
+        mainAxisAlignment: .center,
+        children: [
+          Align(
+              alignment: .topStart,
+              child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8)),
+          Expanded(
+            child: Padding(
+              padding: .symmetric(vertical: NumberConstant.sectionSpacing),
+              child: Stack(
+                alignment: .bottomCenter,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(text: StringConst.homeHeroPrefix.toUpperCase(), style: AppTextStyles.homeHeroTitle),
+                        TextSpan(text: StringConst.homeHeroHighlight.toUpperCase(), style: AppTextStyles.homeHeroHighlight),
+                      ],
+                    ),
+                    textAlign: .center,
+                  ),
+                  SvgPicture.asset(AssetRes.icStyleRings),
+                ],
               ),
-              SvgPicture.asset(AssetRes.icStyleRings),
-            ],
+            ),
           ),
-        ),
-      ],
+          Align(
+            alignment: .bottomEnd,
+              child: _buildDiscountBadge(label: StringConst.discount20, angle: -0.8)),
+      
+        ],
+      ),
     );
   }
 
@@ -150,7 +151,7 @@ class _HomeView extends StatelessWidget {
         Row(
           spacing: 8,
           children: [
-            Text(StringConst.categorySection, style: AppTextStyles.sectionTitle,),
+            Text(StringConst.categorySection.toUpperCase(), style: AppTextStyles.sectionTitle,),
             Image.asset(AssetRes.icCategoryFire, width: NumberConstant.categoryFireWidth, height: NumberConstant.categoryFireHeight,),
           ],
         ),
@@ -173,15 +174,23 @@ class _HomeView extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: NumberConstant.categoryItemWidth,
+
         child: Column(
-          spacing: NumberConstant.tightSpacing,
-          children: [
-            ClipOval(
-              child: Image.asset(category.image, width: NumberConstant.categoryAvatarSize, height: NumberConstant.categoryAvatarSize, fit: .cover,),
+              spacing: NumberConstant.tightSpacing,
+              children: [
+                Container(
+                  width: NumberConstant.categoryAvatarSize,
+                  height: NumberConstant.categoryAvatarSize,
+                  decoration: BoxDecoration(
+                      shape: .circle,
+                      border: Border.all(color: selected ? AppColors.accent : Colors.transparent, width: 2),
+                    image: DecorationImage(image: AssetImage(category.image,), fit: .cover)
+                  ),
+
+                ),
+                Text(category.name.toUpperCase(), style: selected ? AppTextStyles.categoryLabelSelected : AppTextStyles.categoryLabel, textAlign: .center, maxLines: 1, overflow: .ellipsis,),
+              ],
             ),
-            Text(category.name, style: selected ? AppTextStyles.categoryLabelSelected : AppTextStyles.categoryLabel, textAlign: .center, maxLines: 1, overflow: .ellipsis,),
-          ],
-        ),
       ),
     );
   }

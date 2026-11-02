@@ -11,7 +11,7 @@ class StringConst {
   static const onboardingCta = 'Let’s Get start';
 
   static const homeWelcome = 'Welcome,';
-  static const homeUserName = 'Uttam vora';
+  static const homeUserName = 'Sheraz Ali';
   static const homeHeroPrefix = 'Discover your next ';
   static const homeHeroHighlight = 'style';
   static const categorySection = 'Category';

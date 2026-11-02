@@ -36,6 +36,22 @@ class ProductGridCard extends StatelessWidget {
           fit: .expand,
           children: [
             Image.asset(product.image, fit: .cover,),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: .circular(NumberConstant.productCardRadius),
+                  gradient: LinearGradient(colors: [
+                    Colors.black.withValues(alpha: 0.0),
+                    Colors.black
+                  ],
+                      begin: .topCenter,
+                      end: .bottomCenter,
+                      stops: [
+                        0.63,
+                        1
+                      ]
+                  )
+              ),
+            ),
             Positioned(
               top: NumberConstant.tightSpacing,
               right: NumberConstant.tightSpacing,

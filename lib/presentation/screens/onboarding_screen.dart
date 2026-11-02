@@ -121,9 +121,10 @@ class OnboardingScreen extends StatelessWidget {
       children: [
         Text(StringConst.onboardingLine1, style: AppTextStyles.onboardingHeadline, textAlign: .center,),
         Stack(
-          alignment: .center,
+          alignment: .centerLeft,
           children: [
             SvgPicture.asset(AssetRes.icHeadlineUnderline),
+
             Text.rich(
               TextSpan(
                 children: [
